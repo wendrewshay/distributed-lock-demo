@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/distributed-lock-curator/distributed-lock-curator.iml" filepath="$PROJECT_DIR$/distributed-lock-curator/distributed-lock-curator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-lock-demo.iml" filepath="$PROJECT_DIR$/distributed-lock-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-lock-redis/distributed-lock-redis.iml" filepath="$PROJECT_DIR$/distributed-lock-redis/distributed-lock-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-lock-redisson/distributed-lock-redisson.iml" filepath="$PROJECT_DIR$/distributed-lock-redisson/distributed-lock-redisson.iml" />
+      <module fileurl="file://$PROJECT_DIR$/distributed-lock-zookeeper/distributed-lock-zookeeper.iml" filepath="$PROJECT_DIR$/distributed-lock-zookeeper/distributed-lock-zookeeper.iml" />
+    </modules>
+  </component>
+</project>
