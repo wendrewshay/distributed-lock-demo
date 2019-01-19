@@ -11,10 +11,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class RedissonTool {
     /**
-     * 从管理器中获取Redisson实例
-     */
-    private static Redisson redisson = RedissonManager.getRedisson();
-    /**
      * 锁名称前缀
      */
     private final static String LOCK_PREFIX = "redisson_lock_";
@@ -25,10 +21,10 @@ public class RedissonTool {
      * @return boolean
      * @author by Joney on 2019/1/19 18:42
      */
-    public static boolean acquire(String lockName) {
+    public static boolean acquire(Redisson redisson, String lockName) {
         String key = LOCK_PREFIX + lockName;
         RLock lock = redisson.getLock(key);
-        lock.lock(3, TimeUnit.MINUTES);
+        lock.lockAsync(3, TimeUnit.MINUTES);
         System.out.println("===lock===" + Thread.currentThread().getName());
         return true;
     }
@@ -38,7 +34,7 @@ public class RedissonTool {
      * @param lockName 锁名
      * @author by Joney on 2019/1/19 18:43
      */
-    public static void release(String lockName) {
+    public static void release(Redisson redisson, String lockName) {
         String key = LOCK_PREFIX + lockName;
         RLock lock = redisson.getLock(key);
         lock.unlock();
