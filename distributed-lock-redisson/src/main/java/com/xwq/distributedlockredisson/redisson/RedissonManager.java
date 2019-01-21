@@ -1,14 +1,13 @@
 package com.xwq.distributedlockredisson.redisson;
 
 import org.redisson.Redisson;
+import org.redisson.client.codec.StringCodec;
 import org.redisson.config.Config;
-import org.springframework.stereotype.Component;
 
 /**
  * Redisson管理器
  * @author by Joney on 2019/1/19 18:31
  */
-@Component
 public class RedissonManager {
 
     private static Config config = new Config();
@@ -17,7 +16,12 @@ public class RedissonManager {
      */
     private static Redisson redisson = null;
 
-    static {
+    /**
+     * 初始化
+     * @author by Joney on 2019/1/21 9:24
+     */
+    public static void init() {
+        config.setCodec(new StringCodec());
         config.useSingleServer().setAddress("redis://192.168.22.180:6379");
         redisson = (Redisson)Redisson.create(config);
     }
@@ -27,7 +31,7 @@ public class RedissonManager {
      * @return Redisson
      * @author by Joney on 2019/1/19 18:36
      */
-    public Redisson getRedisson() {
+    public static Redisson getRedisson() {
         return redisson;
     }
 }

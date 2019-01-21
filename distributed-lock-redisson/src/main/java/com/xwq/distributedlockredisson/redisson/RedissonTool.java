@@ -24,8 +24,8 @@ public class RedissonTool {
     public static boolean acquire(Redisson redisson, String lockName) {
         String key = LOCK_PREFIX + lockName;
         RLock lock = redisson.getLock(key);
-        lock.lockAsync(3, TimeUnit.MINUTES);
-        System.out.println("===lock===" + Thread.currentThread().getName());
+        lock.lock(3, TimeUnit.MINUTES);
+//        System.out.println("===lock===" + Thread.currentThread().getName());
         return true;
     }
 
@@ -38,6 +38,6 @@ public class RedissonTool {
         String key = LOCK_PREFIX + lockName;
         RLock lock = redisson.getLock(key);
         lock.unlock();
-        System.out.println("===unlock===" + Thread.currentThread().getName());
+//        System.out.println("===unlock===" + Thread.currentThread().getName());
     }
 }
