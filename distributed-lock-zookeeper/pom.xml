@@ -13,4 +13,11 @@
     <name>distributed-lock-zookeeper</name>
     <description>zookeeper实现分布式锁</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.13</version>
+        </dependency>
+    </dependencies>
 </project>
