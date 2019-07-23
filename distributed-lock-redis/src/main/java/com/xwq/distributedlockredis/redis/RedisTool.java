@@ -1,5 +1,7 @@
 package com.xwq.distributedlockredis.redis;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 
 import java.util.Collections;
@@ -9,6 +11,8 @@ import java.util.Collections;
  * @author by Joney on 2019/1/19 9:01
  */
 public class RedisTool {
+
+    private static Logger logger = LoggerFactory.getLogger(RedisTool.class);
 
     /**
      * 锁获取成功标识
@@ -39,8 +43,10 @@ public class RedisTool {
     public static boolean tryGetDistributedLock(Jedis jedis, String lockKey, String requestId, int expireTime) {
         String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
         if (LOCK_SUCCESS.equals(result)) {
+            logger.info("### requestId={}, get lock succeed.", requestId);
             return true;
         }
+        logger.info("### requestId={}, get lock failed.", requestId);
         return false;
     }
 
@@ -56,6 +62,7 @@ public class RedisTool {
         String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
         Object result = jedis.eval(script, Collections.singletonList(lockKey), Collections.singletonList(requestId));
         if (RELEASE_SUCCESS.equals(result)) {
+            logger.info("### requestId={}, release lock succeed.", requestId);
             return true;
         }
         return false;
