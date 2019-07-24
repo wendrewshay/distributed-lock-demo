@@ -1,8 +1,10 @@
 package com.xwq.distributedlockredis;
 
+import com.xwq.distributedlockredis.redis.RedisLock;
 import com.xwq.distributedlockredis.redis.RedisTool;
 import net.sourceforge.groboutils.junit.v1.MultiThreadedTestRunner;
 import net.sourceforge.groboutils.junit.v1.TestRunnable;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -32,8 +34,33 @@ public class DistributedLockTest {
      */
     private static Integer num = 0;
 
+    @Autowired
+    private RedisLock redisLock;
+
     @Test
-    public void run() throws Throwable {
+    public void run1() throws Throwable {
+        TestRunnable runner = new TestRunnable() {
+            @Override
+            public void runTest() throws Throwable {
+                if (redisLock.lock()) {
+                    num ++;
+                    logger.info(">>> requestId={}, num={}", Thread.currentThread().getId(), num);
+                    redisLock.unlock();
+                }
+            }
+        };
+        // 10个线程同时跑，有且只有一个线程能获取到锁
+        int runnerCount = 10;
+        TestRunnable[] trs = new TestRunnable[runnerCount];
+        for (int i = 0; i < runnerCount; i ++) {
+            trs[i] = runner;
+        }
+        MultiThreadedTestRunner mttr = new MultiThreadedTestRunner(trs);
+        mttr.runTestRunnables();
+    }
+
+    @Test
+    public void run2() throws Throwable {
         TestRunnable runner = new TestRunnable() {
             @Override
             public void runTest() throws Throwable {

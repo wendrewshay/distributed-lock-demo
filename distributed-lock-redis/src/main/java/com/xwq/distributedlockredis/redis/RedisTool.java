@@ -65,6 +65,7 @@ public class RedisTool {
             logger.info("### requestId={}, release lock succeed.", requestId);
             return true;
         }
+        logger.info("### requestId={}, release lock failed.", requestId);
         return false;
     }
 }
